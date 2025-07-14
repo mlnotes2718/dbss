@@ -2,10 +2,6 @@ from flask import Flask, render_template, request
 import joblib
 from groq import Groq
 
-load_dotenv()
-#os.environ['GROQ_API_KEY'] = ""
-# for cloud ..........
-
 app = Flask(__name__)
 
 @app.route("/",methods=["GET","POST"])
