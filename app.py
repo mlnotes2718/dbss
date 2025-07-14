@@ -9,22 +9,21 @@ def index():
 
 @app.route("/main",methods=["GET","POST"])
 def main():
-    #q = float(request.form.get("q"))
-
-    #db
-
+    q = request.form.get("q")
+    # db
     return(render_template("main.html"))
+
+@app.route("/dbs",methods=["GET","POST"])
+def dbs():
+    return(render_template("dbs.html"))
 
 @app.route("/prediction",methods=["GET","POST"])
 def prediction():
     q = float(request.form.get("q"))
-
     # load model
     model = joblib.load("dbs.jl")
-
     # make prediction
     pred = model.predict([[q]])
-
     return(render_template("prediction.html",r=pred))
 
 if __name__ == "__main__":
