@@ -58,16 +58,19 @@ def telegram():
 
 @app.route("/telegram_reply",methods=["GET","POST"])
 def one_time_telegram():
-    BASE_URL = "https://api.telegram.org/bot" + os.environ.get("TELEGRAM_BOT_TOKEN") + "/"
+    TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+    BASE_URL = "https://api.telegram.org/bot{TOKEN}/"
     data = ""
     while not data:
         response = requests.get(BASE_URL + 'getUpdates')
         data = response.json()["result"]
-        print(data)
         time.sleep(5)
 
+    print(data)
     q = data['result'][-1]['message']['text']
+    print('Query:', q)
     chat_id = data['result'][-1]['message']['chat']['id']
+    print('Chat ID:', chat_id)
 
     # load model
     client = Groq()
