@@ -63,6 +63,12 @@ def one_time_telegram():
     data = ""
     while not data:
         response = requests.get(BASE_URL + 'getUpdates')
+        if response.status_code != 200:
+            print("Error fetching updates:", response.status_code)
+            return render_template("telegram.html", r="Error fetching updates")
+        if 'result' not in response.json():
+            print("No updates found")
+            return render_template("telegram.html", r="No updates found")   
         data = response.json()['result']
         print(data)
         time.sleep(5)
