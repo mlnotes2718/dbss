@@ -63,13 +63,13 @@ def one_time_telegram():
     data = ""
     while not data:
         response = requests.get(BASE_URL + 'getUpdates')
-        data = response.json()
+        data = response.json()['result']
         time.sleep(5)
 
     print(data)
-    q = data['result'][-1]['message']['text']
+    q = data[-1]['message']['text']
     print('Query:', q)
-    chat_id = data['result'][-1]['message']['chat']['id']
+    chat_id = data[-1]['message']['chat']['id']
     print('Chat ID:', chat_id)
 
     # load model
