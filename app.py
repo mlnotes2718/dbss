@@ -70,9 +70,9 @@ def one_time_telegram():
     response = requests.get(BASE_URL + 'getUpdates')
     data = response.json()
     print(data)
-    text = data['result'][-1]['message']['text']
+    q = data['result'][-1]['message']['text']
     chat_id = data['result'][-1]['message']['chat']['id']
-    print("Text:", text)
+    print("Text:", q)
     print("Chat ID:", chat_id)
 
     # load model
