@@ -63,7 +63,7 @@ def one_time_telegram():
     data = ""
     while not data:
         response = requests.get(BASE_URL + 'getUpdates')
-        data = response.json()["result"]
+        data = response.json()
         time.sleep(5)
 
     print(data)
