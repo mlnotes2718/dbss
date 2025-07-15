@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
+import requests
 import joblib
+import time
 from groq import Groq
 import os
 
@@ -49,6 +51,39 @@ def llama_reply():
         messages=[{"role": "user", "content": q}]    
         )
     return(render_template("llama_reply.html",r=completion.choices[0].message.content))
+
+@app.route("/telegram",methods=["GET","POST"])
+def telegram():
+    return(render_template("telegram.html"))
+
+@app.route("/telegram_reply",methods=["GET","POST"])
+def one_time_telegram():
+    BASE_URL = "https://api.telegram.org/bot" + os.environ.get("TELEGRAM_BOT_TOKEN") + "/"
+    data = ""
+    while not data:
+        response = requests.get(BASE_URL + 'getUpdates')
+        data = response.json()["result"]
+        print(data)
+        time.sleep(5)
+
+    q = data['result'][-1]['message']['text']
+    chat_id = data['result'][-1]['message']['chat']['id']
+
+    # load model
+    client = Groq()
+    completion = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[{"role": "user", "content": q}]    
+        )
+    r=completion.choices[0].message.content
+
+    # send reply
+    requests.post(BASE_URL + 'sendMessage', data={
+        'chat_id': chat_id,
+        'text': r
+    })
+    
+    return(render_template("main.html"))
 
 @app.route("/dbs",methods=["GET","POST"])
 def dbs():
