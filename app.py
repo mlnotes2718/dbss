@@ -60,24 +60,20 @@ def telegram():
 def one_time_telegram():
     TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
     BASE_URL = "https://api.telegram.org/bot{TOKEN}/"
-    data = ""
-    while not data:
-        response = requests.get(BASE_URL + 'getUpdates')
-        if response.status_code != 200:
-            print("Error fetching updates:", response.status_code)
-            return render_template("telegram.html", r="Error fetching updates")
-        if 'result' not in response.json():
-            print("No updates found")
-            return render_template("telegram.html", r="No updates found")   
-        data = response.json()['result']
-        print(data)
-        time.sleep(5)
+    # data = ""
+    # while not data:
+    #     response = requests.get(BASE_URL + 'getUpdates')
+    #     data = response.json()["result"]
+    #     print(data)
+    #     time.sleep(5)
 
+    response = requests.get(BASE_URL + 'getUpdates')
+    data = response.json()
     print(data)
-    q = data[-1]['message']['text']
-    print('Query:', q)
-    chat_id = data[-1]['message']['chat']['id']
-    print('Chat ID:', chat_id)
+    text = data['result'][-1]['message']['text']
+    chat_id = data['result'][-1]['message']['chat']['id']
+    print("Text:", text)
+    print("Chat ID:", chat_id)
 
     # load model
     client = Groq()
