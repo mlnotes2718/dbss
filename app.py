@@ -103,10 +103,10 @@ def dbs():
 def prediction():
     q = float(request.form.get("q"))
     # load model
-    model = joblib.load("dbs.jl")
+    #model = joblib.load("dbs.jl")
     # make prediction
-    pred = model.predict([[q]])
-    return(render_template("prediction.html",r=pred))
+    #pred = model.predict([[q]])
+    return(render_template("prediction.html",r=90.2285+(-50.60*q)))
 
 if __name__ == "__main__":
     app.run()
