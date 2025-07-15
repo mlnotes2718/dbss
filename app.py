@@ -59,7 +59,7 @@ def telegram():
 @app.route("/telegram_reply",methods=["GET","POST"])
 def one_time_telegram():
     TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-    BASE_URL = "https://api.telegram.org/bot{TOKEN}/"
+    BASE_URL = f'https://api.telegram.org/bot{TOKEN}/'
     # data = ""
     # while not data:
     #     response = requests.get(BASE_URL + 'getUpdates')
