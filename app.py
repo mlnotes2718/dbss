@@ -4,6 +4,8 @@ from groq import Groq
 
 app = Flask(__name__)
 
+os.environ['GROQ_API_KEY'] = os.getenv("groq")
+
 @app.route("/",methods=["GET","POST"])
 def index():
     return(render_template("index.html"))
